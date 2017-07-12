@@ -11,7 +11,7 @@ public class BankAccountDetailsIBAN extends Dto implements BankAccountDetails {
     /**
      * IBAN number.
      *
-     * @deprecated Use {@link #getIBAN()} and {@link #setIBAN(String)} instead.
+     * @deprecated Use {@link #getIban()} and {@link #setIban(String)} instead.
      */
     @Deprecated
     public String IBAN;
@@ -19,24 +19,24 @@ public class BankAccountDetailsIBAN extends Dto implements BankAccountDetails {
     /**
      * BIC.
      *
-     * @deprecated Use {@link #getBIC()} and {@link #setBIC(String)} instead.
+     * @deprecated Use {@link #getBic()} and {@link #setBic(String)} instead.
      */
     @Deprecated
     public String BIC;
 
-    public String getIBAN() {
+    public String getIban() {
         return IBAN;
     }
 
-    public void setIBAN(String IBAN) {
-        this.IBAN = IBAN;
+    public void setIban(String iban) {
+        this.IBAN = iban;
     }
 
-    public String getBIC() {
+    public String getBic() {
         return BIC;
     }
 
-    public void setBIC(String BIC) {
-        this.BIC = BIC;
+    public void setBic(String bic) {
+        this.BIC = bic;
     }
 }

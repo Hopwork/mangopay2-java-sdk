@@ -23,7 +23,9 @@ public abstract class BaseTest {
     protected MangoPayApi api;
 
     private static UserNatural JOHN;
+    private static LegacyUserNatural LEGACY_JOHN;
     private static UserLegal MATRIX;
+    private static LegacyUserLegal LEGACY_MATRIX;
     private static BankAccount JOHNS_ACCOUNT;
     private static Wallet JOHNS_WALLET;
     private static Wallet JOHNS_WALLET_WITH_MONEY;
@@ -138,6 +140,19 @@ public abstract class BaseTest {
         return BaseTest.JOHN;
     }
 
+    protected LegacyUserNatural getLegacyJohn() throws Exception {
+        if (BaseTest.LEGACY_JOHN == null) {
+            if (BaseTest.JOHN == null) {
+                String initialVersion = api.getConfig().getApiVersion();
+                api.getConfig().setApiVersion(Configuration.VERSION_2_01);
+                getJohn();
+                api.getConfig().setApiVersion(initialVersion);
+            }
+            BaseTest.LEGACY_JOHN = (LegacyUserNatural) this.api.getLegacyUserApi().get(BaseTest.JOHN.getId());
+        }
+        return BaseTest.LEGACY_JOHN;
+    }
+
     protected UserNatural getNewJohn() throws Exception {
 
         Calendar c = Calendar.getInstance();
@@ -182,6 +197,19 @@ public abstract class BaseTest {
         return BaseTest.MATRIX;
     }
 
+    protected LegacyUserLegal getLegacyMatrix() throws Exception {
+        if (BaseTest.LEGACY_MATRIX == null) {
+            if (BaseTest.MATRIX == null) {
+                String initialVersion = api.getConfig().getApiVersion();
+                api.getConfig().setApiVersion(Configuration.VERSION_2_01);
+                getMatrix();
+                api.getConfig().setApiVersion(initialVersion);
+            }
+            BaseTest.LEGACY_MATRIX = (LegacyUserLegal) this.api.getLegacyUserApi().get(BaseTest.MATRIX.getId());
+        }
+        return BaseTest.LEGACY_MATRIX;
+    }
+
     protected BankAccount getJohnsAccount() throws Exception {
         return getJohnsAccount(false);
     }
@@ -195,8 +223,8 @@ public abstract class BaseTest {
             account.setOwnerAddress(john.getAddress());
             account.setUserId(john.getId());
             BankAccountDetailsIBAN bankAccountDetails = new BankAccountDetailsIBAN();
-            bankAccountDetails.setIBAN("FR7618829754160173622224154");
-            bankAccountDetails.setBIC("CMBRFR2BCME");
+            bankAccountDetails.setIban("FR7618829754160173622224154");
+            bankAccountDetails.setBic("CMBRFR2BCME");
             account.setDetails(bankAccountDetails);
             BaseTest.JOHNS_ACCOUNT = this.api.getUserApi().createBankAccount(john.getId(), account);
         }
@@ -284,7 +312,7 @@ public abstract class BaseTest {
             // execution type as DIRECT
             payIn.setExecutionDetails(new PayInExecutionDetailsDirect());
             ((PayInExecutionDetailsDirect) payIn.getExecutionDetails()).setCardId(card.getId());
-            ((PayInExecutionDetailsDirect) payIn.getExecutionDetails()).setSecureModeReturnURL("http://test.com");
+            ((PayInExecutionDetailsDirect) payIn.getExecutionDetails()).setSecureModeReturnUrl("http://test.com");
             // create Pay-In
             this.api.getPayInApi().create(payIn);
         }
@@ -304,10 +332,10 @@ public abstract class BaseTest {
     private PayInExecutionDetailsWeb getPayInExecutionDetailsWeb() {
         if (BaseTest.PAYIN_EXECUTION_DETAILS_WEB == null) {
             BaseTest.PAYIN_EXECUTION_DETAILS_WEB = new PayInExecutionDetailsWeb();
-            BaseTest.PAYIN_EXECUTION_DETAILS_WEB.setTemplateURL("https://TemplateURL.com");
+            BaseTest.PAYIN_EXECUTION_DETAILS_WEB.setTemplateUrl("https://TemplateURL.com");
             BaseTest.PAYIN_EXECUTION_DETAILS_WEB.setSecureMode(SecureMode.DEFAULT);
             BaseTest.PAYIN_EXECUTION_DETAILS_WEB.setCulture(CultureCode.FR);
-            BaseTest.PAYIN_EXECUTION_DETAILS_WEB.setReturnURL("https://test.com");
+            BaseTest.PAYIN_EXECUTION_DETAILS_WEB.setReturnUrl("https://test.com");
         }
 
         return BaseTest.PAYIN_EXECUTION_DETAILS_WEB;
@@ -398,7 +426,7 @@ public abstract class BaseTest {
         // execution type as DIRECT
         payIn.setExecutionDetails(new PayInExecutionDetailsDirect());
         ((PayInExecutionDetailsDirect) payIn.getExecutionDetails()).setCardId(card.getId());
-        ((PayInExecutionDetailsDirect) payIn.getExecutionDetails()).setSecureModeReturnURL("http://test.com");
+        ((PayInExecutionDetailsDirect) payIn.getExecutionDetails()).setSecureModeReturnUrl("http://test.com");
 
         return this.api.getPayInApi().create(payIn);
     }
@@ -580,7 +608,7 @@ public abstract class BaseTest {
         cardPreAuthorization.getDebitedFunds().setCurrency(CurrencyIso.EUR);
         cardPreAuthorization.getDebitedFunds().setAmount(10000);
         cardPreAuthorization.setCardId(getCardRegistration.getCardId());
-        cardPreAuthorization.setSecureModeReturnURL("http://test.com");
+        cardPreAuthorization.setSecureModeReturnUrl("http://test.com");
 
         return this.api.getCardPreAuthorizationApi().create(cardPreAuthorization);
     }
@@ -614,7 +642,7 @@ public abstract class BaseTest {
                 "&cardExpirationDate=1218" +
                 "&cardCvx=123";
 
-        URL url = new URL(cardRegistration.getCardRegistrationURL());
+        URL url = new URL(cardRegistration.getCardRegistrationUrl());
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
         connection.setRequestMethod("POST");
@@ -733,6 +761,25 @@ public abstract class BaseTest {
             assertEquals(((UserNatural) entity1).getOccupation(), ((UserNatural) entity2).getOccupation());
             assertEquals(((UserNatural) entity1).getIncomeRange(), ((UserNatural) entity2).getIncomeRange());
 
+        } else if (entity1 instanceof LegacyUserNatural) {
+            assertEquals(((LegacyUserNatural) entity1).getTag(), ((LegacyUserNatural) entity2).getTag());
+            assertEquals(((LegacyUserNatural) entity1).getPersonType(), ((LegacyUserNatural) entity2).getPersonType());
+            assertEquals(((LegacyUserNatural) entity1).getFirstName(), ((LegacyUserNatural) entity2).getFirstName());
+            assertEquals(((LegacyUserNatural) entity1).getLastName(), ((LegacyUserNatural) entity2).getLastName());
+            assertEquals(((LegacyUserNatural) entity1).getEmail(), ((LegacyUserNatural) entity2).getEmail());
+
+            if (((LegacyUserNatural) entity1).getAddress() == null) {
+                assertNull(((LegacyUserNatural) entity2).getAddress());
+            } else {
+                assertNotNull(((LegacyUserNatural) entity2).getAddress());
+                assertEquals(((LegacyUserNatural) entity1).getAddress(), ((LegacyUserNatural) entity2).getAddress());
+            }
+
+            assertEquals(((LegacyUserNatural) entity1).getBirthday(), ((LegacyUserNatural) entity2).getBirthday());
+            assertEquals(((LegacyUserNatural) entity1).getNationality(), ((LegacyUserNatural) entity2).getNationality());
+            assertEquals(((LegacyUserNatural) entity1).getCountryOfResidence(), ((LegacyUserNatural) entity2).getCountryOfResidence());
+            assertEquals(((LegacyUserNatural) entity1).getOccupation(), ((LegacyUserNatural) entity2).getOccupation());
+            assertEquals(((LegacyUserNatural) entity1).getIncomeRange(), ((LegacyUserNatural) entity2).getIncomeRange());
         } else if (entity1 instanceof UserLegal) {
             assertEquals(((UserLegal) entity1).getTag(), ((UserLegal) entity2).getTag());
             assertEquals(((UserLegal) entity1).getPersonType(), ((UserLegal) entity2).getPersonType());
@@ -755,6 +802,22 @@ public abstract class BaseTest {
             assertEquals(((UserLegal) entity1).getLegalRepresentativeNationality(), ((UserLegal) entity2).getLegalRepresentativeNationality());
             assertEquals(((UserLegal) entity1).getLegalRepresentativeCountryOfResidence(), ((UserLegal) entity2).getLegalRepresentativeCountryOfResidence());
 
+        } else if (entity1 instanceof LegacyUserLegal) {
+            assertEquals(((LegacyUserLegal) entity1).getTag(), ((LegacyUserLegal) entity2).getTag());
+            assertEquals(((LegacyUserLegal) entity1).getPersonType(), ((LegacyUserLegal) entity2).getPersonType());
+            assertEquals(((LegacyUserLegal) entity1).getName(), ((LegacyUserLegal) entity2).getName());
+            assertNotNull(((LegacyUserLegal) entity1).getHeadquartersAddress());
+            assertNotNull(((LegacyUserLegal) entity2).getHeadquartersAddress());
+            assertEquals(((LegacyUserLegal) entity1).getHeadquartersAddress(), ((LegacyUserLegal) entity2).getHeadquartersAddress());
+
+            assertEquals(((LegacyUserLegal) entity1).getLegalRepresentativeFirstName(), ((LegacyUserLegal) entity2).getLegalRepresentativeFirstName());
+            assertEquals(((LegacyUserLegal) entity1).getLegalRepresentativeLastName(), ((LegacyUserLegal) entity2).getLegalRepresentativeLastName());
+            //assertEquals("***** TEMPORARY API ISSUE: RETURNED OBJECT MISSES THIS PROP AFTER CREATION *****", ((LegacyUserLegal)entity1).LegalRepresentativeAddress, ((LegacyUserLegal)entity2).LegalRepresentativeAddress);
+            assertEquals(((LegacyUserLegal) entity1).getLegalRepresentativeEmail(), ((LegacyUserLegal) entity2).getLegalRepresentativeEmail());
+            //assertEquals("***** TEMPORARY API ISSUE: RETURNED OBJECT HAS THIS PROP CHANGED FROM TIMESTAMP INTO ISO STRING AFTER CREATION *****", ((LegacyUserLegal)entity1).LegalRepresentativeBirthday, ((LegacyUserLegal)entity2).LegalRepresentativeBirthday);
+            assertEquals(((LegacyUserLegal) entity1).getLegalRepresentativeBirthday(), ((LegacyUserLegal) entity2).getLegalRepresentativeBirthday());
+            assertEquals(((LegacyUserLegal) entity1).getLegalRepresentativeNationality(), ((LegacyUserLegal) entity2).getLegalRepresentativeNationality());
+            assertEquals(((LegacyUserLegal) entity1).getLegalRepresentativeCountryOfResidence(), ((LegacyUserLegal) entity2).getLegalRepresentativeCountryOfResidence());
         } else if (entity1 instanceof BankAccount) {
             assertEquals(((BankAccount) entity1).getTag(), ((BankAccount) entity2).getTag());
             assertEquals(((BankAccount) entity1).getUserId(), ((BankAccount) entity2).getUserId());
@@ -771,14 +834,14 @@ public abstract class BaseTest {
 
 
             if (((BankAccount) entity1).getType() == BankAccountType.IBAN) {
-                assertEquals(((BankAccountDetailsIBAN) ((BankAccount) entity1).getDetails()).getIBAN(), ((BankAccountDetailsIBAN) ((BankAccount) entity2).getDetails()).getIBAN());
-                assertEquals(((BankAccountDetailsIBAN) ((BankAccount) entity1).getDetails()).getBIC(), ((BankAccountDetailsIBAN) ((BankAccount) entity2).getDetails()).getBIC());
+                assertEquals(((BankAccountDetailsIBAN) ((BankAccount) entity1).getDetails()).getIban(), ((BankAccountDetailsIBAN) ((BankAccount) entity2).getDetails()).getIban());
+                assertEquals(((BankAccountDetailsIBAN) ((BankAccount) entity1).getDetails()).getBic(), ((BankAccountDetailsIBAN) ((BankAccount) entity2).getDetails()).getBic());
             } else if (((BankAccount) entity1).getType() == BankAccountType.GB) {
                 assertEquals(((BankAccountDetailsGB) ((BankAccount) entity1).getDetails()).getAccountNumber(), ((BankAccountDetailsGB) ((BankAccount) entity2).getDetails()).getAccountNumber());
                 assertEquals(((BankAccountDetailsGB) ((BankAccount) entity1).getDetails()).getSortCode(), ((BankAccountDetailsGB) ((BankAccount) entity2).getDetails()).getSortCode());
             } else if (((BankAccount) entity1).getType() == BankAccountType.US) {
                 assertEquals(((BankAccountDetailsUS) ((BankAccount) entity1).getDetails()).getAccountNumber(), ((BankAccountDetailsUS) ((BankAccount) entity2).getDetails()).getAccountNumber());
-                assertEquals(((BankAccountDetailsUS) ((BankAccount) entity1).getDetails()).getABA(), ((BankAccountDetailsUS) ((BankAccount) entity2).getDetails()).getABA());
+                assertEquals(((BankAccountDetailsUS) ((BankAccount) entity1).getDetails()).getAba(), ((BankAccountDetailsUS) ((BankAccount) entity2).getDetails()).getAba());
             } else if (((BankAccount) entity1).getType() == BankAccountType.CA) {
                 assertEquals(((BankAccountDetailsCA) ((BankAccount) entity1).getDetails()).getAccountNumber(), ((BankAccountDetailsCA) ((BankAccount) entity2).getDetails()).getAccountNumber());
                 assertEquals(((BankAccountDetailsCA) ((BankAccount) entity1).getDetails()).getBankName(), ((BankAccountDetailsCA) ((BankAccount) entity2).getDetails()).getBankName());
@@ -788,7 +851,7 @@ public abstract class BaseTest {
                 assertEquals(((BankAccountDetailsOTHER) ((BankAccount) entity1).getDetails()).getAccountNumber(), ((BankAccountDetailsOTHER) ((BankAccount) entity2).getDetails()).getAccountNumber());
                 //assertEquals(((BankAccountDetailsOTHER)((BankAccount)entity1).getDetails()).Type, ((BankAccountDetailsOTHER)((BankAccount)entity2).getDetails()).Type);
                 assertEquals(((BankAccountDetailsOTHER) ((BankAccount) entity1).getDetails()).getCountry(), ((BankAccountDetailsOTHER) ((BankAccount) entity2).getDetails()).getCountry());
-                assertEquals(((BankAccountDetailsOTHER) ((BankAccount) entity1).getDetails()).getBIC(), ((BankAccountDetailsOTHER) ((BankAccount) entity2).getDetails()).getBIC());
+                assertEquals(((BankAccountDetailsOTHER) ((BankAccount) entity1).getDetails()).getBic(), ((BankAccountDetailsOTHER) ((BankAccount) entity2).getDetails()).getBic());
             }
 
         } else if (entity1 instanceof PayIn) {
@@ -810,11 +873,11 @@ public abstract class BaseTest {
             assertEquals(((PayInPaymentDetailsCard) entity1).getCardType(), ((PayInPaymentDetailsCard) entity2).getCardType());
 
         } else if (entity1 instanceof PayInExecutionDetailsWeb) {
-            assertEquals(((PayInExecutionDetailsWeb) entity1).getTemplateURL(), ((PayInExecutionDetailsWeb) entity2).getTemplateURL());
+            assertEquals(((PayInExecutionDetailsWeb) entity1).getTemplateUrl(), ((PayInExecutionDetailsWeb) entity2).getTemplateUrl());
             assertEquals(((PayInExecutionDetailsWeb) entity1).getCulture(), ((PayInExecutionDetailsWeb) entity2).getCulture());
             assertEquals(((PayInExecutionDetailsWeb) entity1).getSecureMode(), ((PayInExecutionDetailsWeb) entity2).getSecureMode());
-            assertEquals(((PayInExecutionDetailsWeb) entity1).getRedirectURL(), ((PayInExecutionDetailsWeb) entity2).getRedirectURL());
-            assertEquals(((PayInExecutionDetailsWeb) entity1).getReturnURL(), ((PayInExecutionDetailsWeb) entity2).getReturnURL());
+            assertEquals(((PayInExecutionDetailsWeb) entity1).getRedirectUrl(), ((PayInExecutionDetailsWeb) entity2).getRedirectUrl());
+            assertEquals(((PayInExecutionDetailsWeb) entity1).getReturnUrl(), ((PayInExecutionDetailsWeb) entity2).getReturnUrl());
 
         } else if (entity1 instanceof PayOut) {
             assertEquals(((PayOut) entity1).getTag(), ((PayOut) entity2).getTag());

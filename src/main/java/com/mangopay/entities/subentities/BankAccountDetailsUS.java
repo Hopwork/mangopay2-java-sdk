@@ -22,7 +22,7 @@ public class BankAccountDetailsUS extends Dto implements BankAccountDetails {
     /**
      * ABA.
      *
-     * @deprecated Use {@link #getABA()} and {@link #setABA(String)} instead.
+     * @deprecated Use {@link #getAba()} and {@link #setAba(String)} instead.
      */
     @Deprecated
     public String ABA;
@@ -50,12 +50,12 @@ public class BankAccountDetailsUS extends Dto implements BankAccountDetails {
         this.AccountNumber = accountNumber;
     }
 
-    public String getABA() {
+    public String getAba() {
         return ABA;
     }
 
-    public void setABA(String ABA) {
-        this.ABA = ABA;
+    public void setAba(String aba) {
+        this.ABA = aba;
     }
 
     public com.mangopay.core.enumerations.DepositAccountType getDepositAccountType() {

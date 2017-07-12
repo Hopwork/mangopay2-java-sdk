@@ -38,7 +38,7 @@ public class CardRegistration extends EntityBase {
     /**
      * Card registration URL.
      *
-     * @deprecated Use {@link #getCardRegistrationURL()} and {@link #setCardRegistrationURL(String)} instead.
+     * @deprecated Use {@link #getCardRegistrationUrl()} and {@link #setCardRegistrationUrl(String)} instead.
      */
     @Deprecated
     public String CardRegistrationURL;
@@ -123,12 +123,12 @@ public class CardRegistration extends EntityBase {
         this.PreregistrationData = preregistrationData;
     }
 
-    public String getCardRegistrationURL() {
+    public String getCardRegistrationUrl() {
         return CardRegistrationURL;
     }
 
-    public void setCardRegistrationURL(String cardRegistrationURL) {
-        this.CardRegistrationURL = cardRegistrationURL;
+    public void setCardRegistrationUrl(String url) {
+        this.CardRegistrationURL = url;
     }
 
     public String getCardId() {

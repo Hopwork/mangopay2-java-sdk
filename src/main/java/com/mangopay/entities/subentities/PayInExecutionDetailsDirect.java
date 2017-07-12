@@ -29,7 +29,7 @@ public class PayInExecutionDetailsDirect extends Dto implements PayInExecutionDe
     /**
      * Secure mode return URL.
      *
-     * @deprecated Use {@link #getSecureModeReturnURL()} and {@link #setSecureModeReturnURL(String)} instead.
+     * @deprecated Use {@link #getSecureModeReturnUrl()} and {@link #setSecureModeReturnUrl(String)} instead.
      */
     @Deprecated
     public String SecureModeReturnURL;
@@ -37,7 +37,7 @@ public class PayInExecutionDetailsDirect extends Dto implements PayInExecutionDe
     /**
      * Secure mode redirect URL.
      *
-     * @deprecated Use {@link #getSecureModeRedirectURL()} and {@link #setSecureModeRedirectURL(String)} instead.
+     * @deprecated Use {@link #getSecureModeRedirectUrl()} and {@link #setSecureModeRedirectUrl(String)} instead.
      */
     @Deprecated
     public String SecureModeRedirectURL;
@@ -111,17 +111,17 @@ public class PayInExecutionDetailsDirect extends Dto implements PayInExecutionDe
         this.SecureMode = secureMode;
     }
 
-    public String getSecureModeReturnURL() {
+    public String getSecureModeReturnUrl() {
         return SecureModeReturnURL;
     }
 
     /**
      * Set Secure mode return URL
      *
-     * @param secureModeReturnURL
+     * @param url
      */
-    public void setSecureModeReturnURL(String secureModeReturnURL) {
-        this.SecureModeReturnURL = secureModeReturnURL;
+    public void setSecureModeReturnUrl(String url) {
+        this.SecureModeReturnURL = url;
     }
 
     /**
@@ -129,12 +129,12 @@ public class PayInExecutionDetailsDirect extends Dto implements PayInExecutionDe
      *
      * @return String
      */
-    public String getSecureModeRedirectURL() {
+    public String getSecureModeRedirectUrl() {
         return SecureModeRedirectURL;
     }
 
-    public void setSecureModeRedirectURL(String secureModeRedirectURL) {
-        this.SecureModeRedirectURL = secureModeRedirectURL;
+    public void setSecureModeRedirectUrl(String url) {
+        this.SecureModeRedirectURL = url;
     }
 
     public String getSecureModeNeeded() {

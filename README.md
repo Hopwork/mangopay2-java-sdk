@@ -6,7 +6,20 @@ MangopaySDK is a Java client library to work with
 
 Compatibility Note
 -------------------------------------------------
-Since v1.0.6 of this SDK, you must be using at least v2.01 of the API ([more information about the changes required](https://docs.mangopay.com/api-v2-01-overview/))
+Since v1.0.6 of this SDK, you must be using at least v2.01 of the API ([more information about the changes required](https://docs.mangopay.com/api-v2-01-overview/)). You can however use this special version of the SDK to obtain the address in v2 (aka string format) with:
+```
+MangoPayApi client = new MangoPayApi();
+client.getConfig().setApiVersion(Configuration.VERSION_2);
+LegacyUserApi legacyUserApi = client.getLegacyUserApi();
+
+LegacyUserNatural userNatural = (LegacyUserNatural) legacyUserApi.get("123"); // for natural users
+String userNaturalAddress = userNatural.Address;
+
+LegacyUserLegal userLegal = (LegacyUserLegal) legacyUserApi.get("123"); // for legal users
+String headquartersAddress = userLegal.HeadquartersAddress; 
+String legalRepresentativeAddress = userLegal.LegalRepresentativeAddress;
+```
+Note that the LegacyUser* entities supports both old-style fields (.Address) and java-style (.getAddress()).
 
 
 Installation

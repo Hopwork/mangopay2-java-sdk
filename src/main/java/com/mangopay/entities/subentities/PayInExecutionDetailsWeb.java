@@ -17,7 +17,7 @@ public class PayInExecutionDetailsWeb extends Dto implements PayInExecutionDetai
     /**
      * URL format expected.
      *
-     * @deprecated Use {@link #getTemplateURL()} and {@link #setTemplateURL(String)} instead.
+     * @deprecated Use {@link #getTemplateUrl()} and {@link #setTemplateUrl(String)} instead.
      */
     @Deprecated
     public String TemplateURL;
@@ -41,7 +41,7 @@ public class PayInExecutionDetailsWeb extends Dto implements PayInExecutionDetai
     /**
      * Redirect URL.
      *
-     * @deprecated Use {@link #getRedirectURL()} instead.
+     * @deprecated Use {@link #getRedirectUrl()} instead.
      */
     @Deprecated
     public String RedirectURL;
@@ -49,7 +49,7 @@ public class PayInExecutionDetailsWeb extends Dto implements PayInExecutionDetai
     /**
      * Return URL.
      *
-     * @deprecated Use {@link #getReturnURL()} and {@link #setReturnURL(String)} instead.
+     * @deprecated Use {@link #getReturnUrl()} and {@link #setReturnUrl(String)} instead.
      */
     @Deprecated
     public String ReturnURL;
@@ -62,16 +62,16 @@ public class PayInExecutionDetailsWeb extends Dto implements PayInExecutionDetai
      * Used for:
      * - direct debit web type pay-in.
      *
-     * @deprecated Use {@link #getTemplateURLOptions()} and {@link #setTemplateURLOptions(PayInTemplateURLOptions)} instead.
+     * @deprecated Use {@link #getTemplateUrlOptions()} and {@link #setTemplateUrlOptions(PayInTemplateURLOptions)} instead.
      */
     @Deprecated
     public PayInTemplateURLOptions TemplateURLOptions;
 
-    public String getTemplateURL() {
+    public String getTemplateUrl() {
         return TemplateURL;
     }
 
-    public void setTemplateURL(String templateURL) {
+    public void setTemplateUrl(String templateURL) {
         this.TemplateURL = templateURL;
     }
 
@@ -91,24 +91,24 @@ public class PayInExecutionDetailsWeb extends Dto implements PayInExecutionDetai
         this.SecureMode = secureMode;
     }
 
-    public String getRedirectURL() {
+    public String getRedirectUrl() {
         return RedirectURL;
     }
 
-    public String getReturnURL() {
+    public String getReturnUrl() {
         return ReturnURL;
     }
 
-    public void setReturnURL(String returnURL) {
-        this.ReturnURL = returnURL;
+    public void setReturnUrl(String returnUrl) {
+        this.ReturnURL = returnUrl;
     }
 
-    public PayInTemplateURLOptions getTemplateURLOptions() {
+    public PayInTemplateURLOptions getTemplateUrlOptions() {
         return TemplateURLOptions;
     }
 
-    public void setTemplateURLOptions(PayInTemplateURLOptions templateURLOptions) {
-        this.TemplateURLOptions = templateURLOptions;
+    public void setTemplateUrlOptions(PayInTemplateURLOptions templateUrlOptions) {
+        this.TemplateURLOptions = templateUrlOptions;
     }
 
     /**

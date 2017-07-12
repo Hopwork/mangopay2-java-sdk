@@ -113,7 +113,7 @@ public class CardPreAuthorization extends EntityBase {
      * This is the URL where to redirect users to proceed
      * to 3D secure validation.
      *
-     * @deprecated Use {@link #getSecureModeRedirectURL()} and {@link #setSecureModeRedirectURL(String)} instead.
+     * @deprecated Use {@link #getSecureModeRedirectUrl()} and {@link #setSecureModeRedirectUrl(String)} instead.
      */
     @Deprecated
     public String SecureModeRedirectURL;
@@ -122,7 +122,7 @@ public class CardPreAuthorization extends EntityBase {
      * This is the URL where users are automatically redirected
      * after 3D secure validation (if activated).
      *
-     * @deprecated Use {@link #getSecureModeReturnURL()} and {@link #setSecureModeReturnURL(String)} instead.
+     * @deprecated Use {@link #getSecureModeReturnUrl()} and {@link #setSecureModeReturnUrl(String)} instead.
      */
     @Deprecated
     public String SecureModeReturnURL;
@@ -231,20 +231,20 @@ public class CardPreAuthorization extends EntityBase {
         this.SecureModeNeeded = secureModeNeeded;
     }
 
-    public String getSecureModeRedirectURL() {
+    public String getSecureModeRedirectUrl() {
         return SecureModeRedirectURL;
     }
 
-    public void setSecureModeRedirectURL(String secureModeRedirectURL) {
-        this.SecureModeRedirectURL = secureModeRedirectURL;
+    public void setSecureModeRedirectUrl(String url) {
+        this.SecureModeRedirectURL = url;
     }
 
-    public String getSecureModeReturnURL() {
+    public String getSecureModeReturnUrl() {
         return SecureModeReturnURL;
     }
 
-    public void setSecureModeReturnURL(String secureModeReturnURL) {
-        this.SecureModeReturnURL = secureModeReturnURL;
+    public void setSecureModeReturnUrl(String url) {
+        this.SecureModeReturnURL = url;
     }
 
     public Long getExpirationDate() {

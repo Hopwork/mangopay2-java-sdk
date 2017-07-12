@@ -11,6 +11,10 @@ import java.util.logging.Logger;
  */
 public class Configuration {
 
+    public static final String
+            VERSION_2 = "v2",
+            VERSION_2_01 = "v2.01";
+
     /**
      * Client identifier.
      *
@@ -52,12 +56,17 @@ public class Configuration {
      * Connection Read Timeout.
      */
     private int readTimeout = 60000;
-    
+
     /**
      * Mangopay SDK Version
      */
     private String version;
-    
+
+    /**
+     * Mangopay API Version
+     */
+    private String apiVersion = Configuration.VERSION_2_01;
+
 
     public String getClientId() {
         return ClientId;
@@ -127,9 +136,10 @@ public class Configuration {
         this.readTimeout = readTimeout;
     }
 
-    
+
     /**
      * Get Mangopay SDK Version
+     *
      * @return String Mangopay Version
      */
     public String getVersion() {
@@ -141,6 +151,7 @@ public class Configuration {
 
     /**
      * Read Mangopay version from mangopay properties
+     *
      * @return String Mangopay Version
      */
     private String readMangopayVersion() {
@@ -153,5 +164,13 @@ public class Configuration {
             Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "unknown";
+    }
+
+    public String getApiVersion() {
+        return apiVersion;
+    }
+
+    public void setApiVersion(String apiVersion) {
+        this.apiVersion = apiVersion;
     }
 }

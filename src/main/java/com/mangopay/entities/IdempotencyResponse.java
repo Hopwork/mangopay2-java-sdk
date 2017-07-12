@@ -38,7 +38,7 @@ public class IdempotencyResponse extends EntityBase {
     public Object Resource;
 
     /**
-     * @deprecated Use {@link #getRequestURL()} and {@link #setRequestURL(String)}  instead.
+     * @deprecated Use {@link #getRequestURL()} and {@link #setRequestUrl(String)}  instead.
      */
     @Deprecated
     public String RequestURL;
@@ -87,7 +87,7 @@ public class IdempotencyResponse extends EntityBase {
         return RequestURL;
     }
 
-    public void setRequestURL(String requestURL) {
-        this.RequestURL = requestURL;
+    public void setRequestUrl(String url) {
+        this.RequestURL = url;
     }
 }

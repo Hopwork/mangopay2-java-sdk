@@ -25,7 +25,7 @@ public class BankAccountDetailsOTHER extends Dto implements BankAccountDetails {
     /**
      * Valid BIC format.
      *
-     * @deprecated Use {@link #getBIC()} and {@link #setBIC(String)} instead.
+     * @deprecated Use {@link #getBic()} and {@link #setBic(String)} instead.
      */
     @Deprecated
     public String BIC;
@@ -46,12 +46,12 @@ public class BankAccountDetailsOTHER extends Dto implements BankAccountDetails {
         this.Country = country;
     }
 
-    public String getBIC() {
+    public String getBic() {
         return BIC;
     }
 
-    public void setBIC(String BIC) {
-        this.BIC = BIC;
+    public void setBic(String bic) {
+        this.BIC = bic;
     }
 
     public String getAccountNumber() {

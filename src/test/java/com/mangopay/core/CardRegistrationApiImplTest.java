@@ -22,7 +22,7 @@ public class CardRegistrationApiImplTest extends BaseTest {
 
         assertNotNull(cardRegistration_visa.getAccessKey());
         assertNotNull(cardRegistration_visa.getPreregistrationData());
-        assertNotNull(cardRegistration_visa.getCardRegistrationURL());
+        assertNotNull(cardRegistration_visa.getCardRegistrationUrl());
         assertEquals(user.Id, cardRegistration_visa.getUserId());
         assertTrue(cardRegistration_visa.getCurrency() == CurrencyIso.EUR);
         assertEquals("CREATED", cardRegistration_visa.getStatus());
@@ -36,7 +36,7 @@ public class CardRegistrationApiImplTest extends BaseTest {
 
         assertNotNull(cardRegistration_maestro.getAccessKey());
         assertNotNull(cardRegistration_maestro.getPreregistrationData());
-        assertNotNull(cardRegistration_maestro.getCardRegistrationURL());
+        assertNotNull(cardRegistration_maestro.getCardRegistrationUrl());
         assertEquals(user.Id, cardRegistration_maestro.getUserId());
         assertTrue(cardRegistration_maestro.getCurrency() == CurrencyIso.EUR);
         assertEquals("CREATED", cardRegistration_maestro.getStatus());

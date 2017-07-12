@@ -110,6 +110,46 @@ public class UserApiImplTest extends BaseTest {
     }
 
     @Test
+    public void getLegacyNatural() throws Exception {
+        this.api.getConfig().setApiVersion(Configuration.VERSION_2);
+
+        LegacyUserNatural legacyJohn = this.getLegacyJohn();
+        User user1 = this.api.getLegacyUserApi().get(legacyJohn.getId());
+        LegacyUserNatural user2 = this.api.getLegacyUserApi().getNatural(legacyJohn.getId());
+
+        assertTrue(user1.getPersonType().equals(PersonType.NATURAL));
+        assertTrue(user1.getId().equals(legacyJohn.getId()));
+        assertTrue(user2.getPersonType().equals(PersonType.NATURAL));
+        assertTrue(user2.getId().equals(legacyJohn.getId()));
+
+        assertEqualInputProps(user1, legacyJohn);
+    }
+
+    @Test
+    public void getLegal() throws Exception {
+        UserLegal matrix = this.getMatrix();
+
+        User user1 = this.api.getUserApi().get(matrix.getId());
+        User user2 = this.api.getUserApi().getLegal(matrix.getId());
+
+        assertEqualInputProps(user1, matrix);
+        assertEqualInputProps(user2, matrix);
+    }
+
+    @Test
+    public void getLegacyLegal() throws Exception {
+        this.api.getConfig().setApiVersion(Configuration.VERSION_2);
+
+        LegacyUserLegal legacyMatrix = this.getLegacyMatrix();
+
+        User user1 = this.api.getLegacyUserApi().get(legacyMatrix.getId());
+        User user2 = this.api.getLegacyUserApi().getLegal(legacyMatrix.getId());
+
+        assertEqualInputProps(user1, legacyMatrix);
+        assertEqualInputProps(user2, legacyMatrix);
+    }
+
+    @Test
     public void getNaturalFailsForLegalUser() throws Exception {
         UserLegal matrix = this.getMatrix();
 
@@ -135,17 +175,6 @@ public class UserApiImplTest extends BaseTest {
         } catch (ResponseException ex) {
             assertNull(user);
         }
-    }
-
-    @Test
-    public void getLegal() throws Exception {
-        UserLegal matrix = this.getMatrix();
-
-        User user1 = this.api.getUserApi().get(matrix.getId());
-        User user2 = this.api.getUserApi().getLegal(matrix.getId());
-
-        assertEqualInputProps(user1, matrix);
-        assertEqualInputProps(user2, matrix);
     }
 
     @Test
@@ -229,7 +258,7 @@ public class UserApiImplTest extends BaseTest {
             account.setOwnerAddress(john.getAddress());
             account.setDetails(new BankAccountDetailsUS());
             ((BankAccountDetailsUS) account.getDetails()).setAccountNumber("234234234234");
-            ((BankAccountDetailsUS) account.getDetails()).setABA("234334789");
+            ((BankAccountDetailsUS) account.getDetails()).setAba("234334789");
 
             BankAccount createAccount = this.api.getUserApi().createBankAccount(john.getId(), account);
 
@@ -237,7 +266,7 @@ public class UserApiImplTest extends BaseTest {
             assertTrue(createAccount.getUserId().equals(john.getId()));
             assertTrue(createAccount.getType() == BankAccountType.US);
             assertTrue(((BankAccountDetailsUS) createAccount.getDetails()).getAccountNumber().equals("234234234234"));
-            assertTrue(((BankAccountDetailsUS) createAccount.getDetails()).getABA().equals("234334789"));
+            assertTrue(((BankAccountDetailsUS) createAccount.getDetails()).getAba().equals("234334789"));
             assertTrue(((BankAccountDetailsUS) createAccount.getDetails()).getDepositAccountType().equals(DepositAccountType.CHECKING));
 
             ((BankAccountDetailsUS) account.getDetails()).setDepositAccountType(DepositAccountType.SAVINGS);
@@ -247,7 +276,7 @@ public class UserApiImplTest extends BaseTest {
             assertTrue(createAccountSavings.getUserId().equals(john.getId()));
             assertTrue(createAccountSavings.getType() == BankAccountType.US);
             assertTrue(((BankAccountDetailsUS) createAccountSavings.getDetails()).getAccountNumber().equals("234234234234"));
-            assertTrue(((BankAccountDetailsUS) createAccountSavings.getDetails()).getABA().equals("234334789"));
+            assertTrue(((BankAccountDetailsUS) createAccountSavings.getDetails()).getAba().equals("234334789"));
             assertTrue(((BankAccountDetailsUS) createAccountSavings.getDetails()).getDepositAccountType().equals(DepositAccountType.SAVINGS));
         } catch (Exception ex) {
             Assert.fail(ex.getMessage());
@@ -292,7 +321,7 @@ public class UserApiImplTest extends BaseTest {
             account.setType(BankAccountType.OTHER);
             ((BankAccountDetailsOTHER) account.getDetails()).setCountry(CountryIso.FR);
             ((BankAccountDetailsOTHER) account.getDetails()).setAccountNumber("234234234234");
-            ((BankAccountDetailsOTHER) account.getDetails()).setBIC("BINAADADXXX");
+            ((BankAccountDetailsOTHER) account.getDetails()).setBic("BINAADADXXX");
 
             BankAccount createAccount = this.api.getUserApi().createBankAccount(john.getId(), account);
 
@@ -301,7 +330,7 @@ public class UserApiImplTest extends BaseTest {
             assertTrue(createAccount.getType() == BankAccountType.OTHER);
             assertTrue(((BankAccountDetailsOTHER) createAccount.getDetails()).getCountry().equals(CountryIso.FR));
             assertTrue(((BankAccountDetailsOTHER) createAccount.getDetails()).getAccountNumber().equals("234234234234"));
-            assertTrue(((BankAccountDetailsOTHER) createAccount.getDetails()).getBIC().equals("BINAADADXXX"));
+            assertTrue(((BankAccountDetailsOTHER) createAccount.getDetails()).getBic().equals("BINAADADXXX"));
         } catch (Exception ex) {
             Assert.fail(ex.getMessage());
         }
@@ -403,12 +432,12 @@ public class UserApiImplTest extends BaseTest {
     public void updateKycDocument() throws Exception {
         UserNatural john = this.getJohn();
         KycDocument kycDocument = this.getJohnsKycDocument();
-        
+
         URL url = getClass().getResource("/com/mangopay/core/TestKycPageFile.png");
         String filePath = new File(url.toURI()).getAbsolutePath();
 
         this.api.getUserApi().createKycPage(john.getId(), kycDocument.getId(), filePath);
-        
+
         kycDocument.setStatus(KycStatus.VALIDATION_ASKED);
 
         KycDocument result = this.api.getUserApi().updateKycDocument(john.getId(), kycDocument);

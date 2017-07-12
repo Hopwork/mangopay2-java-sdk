@@ -25,6 +25,7 @@ public class MangoPayApi {
         this.AuthenticationManager = new OAuthApiImpl(this);
         this.Clients = new ClientApiImpl(this);
         this.Users = new UserApiImpl(this);
+        this.legacyUsers = new LegacyUserApiImpl(this);
         this.Wallets = new WalletApiImpl(this);
         this.PayIns = new PayInApiImpl(this);
         this.PayOuts = new PayOutApiImpl(this);
@@ -90,6 +91,11 @@ public class MangoPayApi {
      */
     @Deprecated
     public ApiUsers Users;
+
+    /**
+     * Provides legacy Users methods.
+     */
+    private LegacyUserApi legacyUsers;
 
     /**
      * Provides Wallets methods.
@@ -213,7 +219,10 @@ public class MangoPayApi {
 
     /**
      * Provides Banking Alias methods.
+     *
+     * @deprecated Use (@link {@link #getBankingAliases()} and {@link #setBankingAliases(BankingAliasApi)} instead.
      */
+    @Deprecated
     public BankingAliasApi bankingAliases;
 
     public AuthorizationTokenManager getOAuthTokenManager() {
@@ -249,11 +258,25 @@ public class MangoPayApi {
     }
 
     public ApiUsers getUserApi() {
+        if (getConfig().getApiVersion().equals(Configuration.VERSION_2)) {
+            throw new IllegalStateException("Standard version of API requires setting a higher API version in the Configuration");
+        }
         return Users;
     }
 
     public void setUserApi(ApiUsers users) {
         this.Users = users;
+    }
+
+    public LegacyUserApi getLegacyUserApi() {
+        if (!getConfig().getApiVersion().equals(Configuration.VERSION_2)) {
+            throw new IllegalStateException("Legacy version of API requires setting a lower API version in the Configuration");
+        }
+        return legacyUsers;
+    }
+
+    public void setLegacyUserApi(LegacyUserApi legacyUsers) {
+        this.legacyUsers = legacyUsers;
     }
 
     public ApiWallets getWalletApi() {
